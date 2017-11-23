@@ -124,7 +124,7 @@ class UrlBuilder
             $query .= "$key/$value/";
         }
 
-        return "/query/$query";
+        return "/q/$query";
     }
 
 
