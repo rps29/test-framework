@@ -20,7 +20,7 @@ class Request
     public $_controller;
 
     /**
-     * @var string $_GET['query']
+     * @var string $_GET['q']
      */
     public $_query;
 
@@ -37,7 +37,7 @@ class Request
         $this->_language = $this->get('language');
         $this->_layer = $this->get('layer');
         $this->_controller = $this->get('controller');
-        $this->_query = $this->get('query');
+        $this->_query = $this->get('q');
         $this->_post = $_POST;
     }
 
@@ -83,6 +83,7 @@ class Request
     /**
      * @return array that merges given parameters with current query or another parameter array
      * Can be used as second parameter (query) for url()
+     * Doesn't touch or change anything up to $_query
      */
     public function mergeParams(array $parameters, array $current = null)
     {
