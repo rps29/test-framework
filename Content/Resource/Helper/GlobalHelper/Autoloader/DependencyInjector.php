@@ -38,7 +38,7 @@ class DependencyInjector
 
     /**
      * If class has already been instantiated, return it.
-     * Otherwise create new object and return it.
+     * Otherwise create new object and return its instance.
      */
     public function getClass(string $class, $create)
     {
@@ -47,9 +47,14 @@ class DependencyInjector
             return new $class;
         }
 
+        if (substr($class, 0, 1) !== "\\")
+        {
+            $class = "\\$class";
+        }
+
         if (!isset($this->_loaded[$class]))
         {
-            $this->_loaded[$class] = inject($class);
+            $this->_loaded[$class] = new $class;
         }
 
         return $this->_loaded[$class];

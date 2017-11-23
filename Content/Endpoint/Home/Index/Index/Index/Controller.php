@@ -12,12 +12,12 @@ class Controller extends AbstractController
 
         echo "<br><br>";
 
-        // <TEST
+        /*/ <TEST
         $newUrlBuilder = create('\Content\Resource\Helper\GlobalHelper\UrlBuilder\UrlBuilder');
         $newLang = $this->_request->getLanguage() === 'de' ? 'en' : 'de';
         echo $newUrlBuilder->urlToHtml('', ['_lang' => $newLang]);
         echo "<br><br>";
-        //*/ TEST>
+        //*/// TEST>
 
         echo url()->urlToHtml('home');
     }

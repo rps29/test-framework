@@ -9,5 +9,8 @@ namespace Content\Resource\Helper\Db;
 class DbAction
 {
 
+    public function __construct()
+    {
+    }
 
 }

@@ -42,7 +42,8 @@ function create(string $class)
 {
     try
     {
-        return inject($class, true);
+        global $injector;
+        return $injector->inject($class, true);
     }
     catch (Exception $e)
     {

@@ -26,14 +26,6 @@ class RenderObject
      * getHtml -> runs functionality, renders HTML
      */
 
-    private $_request;
-
-
-    public function __construct(Request $request)
-    {
-        $this->_request = $request;
-    }
-
 
     public function render()
     {

@@ -3,6 +3,7 @@ namespace Content\Page\EndpointControlling;
 
 use Content\Page\Request;
 use Content\Page\RenderObject as Renderer;
+use Content\Resource\Helper\Db\DbAction;
 
 /**
  * TODO:
@@ -21,6 +22,8 @@ abstract class AbstractController
 
     protected $_renderer;
 
+    protected $_dbHelper;
+
 
     /**
      * Method called to run by requested endpoint (controller)
@@ -28,10 +31,11 @@ abstract class AbstractController
     abstract public function execute();
 
 
-    public function __construct(Request $request, Renderer $renderer)
+    public function __construct(Request $request, Renderer $renderer, DbAction $dbAction)
     {
         $this->_request = $request;
         $this->_renderer = $renderer;
+        $this->_dbhelper = $dbAction;
     }
 
 
