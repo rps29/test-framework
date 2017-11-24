@@ -9,5 +9,9 @@ namespace Content\Resource\Helper\Db;
 class DbAction
 {
 
+    public function getTable($tablename)
+    {
+        return 'DbAction::getTable();';
+    }
 
 }

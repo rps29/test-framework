@@ -25,8 +25,6 @@ class Request
     public $_query;
 
     /**
-     * // TODO: Later on: Add getter: getPost(); for special logic parsing e.g. parameters
-     *
      * @var array $_POST
      */
     public $_post;
@@ -50,7 +48,8 @@ class Request
     {
         $controller = $this->_controller;
 
-        if (strlen($controller) && (substr($controller, 0, 1) === '/')) {
+        if (strlen($controller) && (substr($controller, 0, 1) === '/'))
+        {
             return substr($controller, 1);
         }
 
@@ -67,12 +66,14 @@ class Request
         $aRet = [];
         $request = explode("/", $this->_query);
 
-        if (!$request[0]) {
+        if (!$request[0])
+        {
             unset($request[0]);
             $request = array_values($request);
         }
 
-        for ($i = 0; $i < count($request), isset($request[$i]), isset($request[$i + 1]); $i++) {
+        for ($i = 0; $i < count($request), isset($request[$i]), isset($request[$i + 1]); $i++)
+        {
             $aRet[$request[$i]] = $request[++$i];
         }
 

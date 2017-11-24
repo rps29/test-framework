@@ -82,8 +82,22 @@ class UrlBuilder
             $resource = substr($resource, 0, strlen($resource) - 1);
         }
 
-        // TODO: extract this logic to a private "adjustResource()" function
+        return $this->adjustResource($resource);
+    }
+
+
+    /**
+     * @return string validated URL.
+     * Camel-Case will be converted to lowercase replaced by '-'.
+     * Example:
+     * 'home/contact/howToContact'  =>  'home/contact/how-to-contact'
+     * This URL pattern will be converted back for loading properly controller. That means, that
+     * 'how-to-contact' runs HowToContact controller.
+     */
+    private function adjustResource($resource)
+    {
         $ar = explode('/', $resource);
+
         foreach ($ar as &$item)
         {
             $item = trim(strtolower(implode(preg_split('/(?=[A-Z])/', $item), '-')), " \t\n\r\0\x0B-");
@@ -94,28 +108,14 @@ class UrlBuilder
 
 
     /**
-     * // TODO: Extract special arguments e.g. _current, _lang to i.e. $this->parseArgumentsForQuery();
-     *
      * @return string URL query snippet for $_GET usage
      */
     private function getQuery()
     {
+        $this->parseArguments();
+
         $query = '';
         $arguments = $this->_arguments;
-
-        // determine whether to re-use currently requested $_GET arguments
-        if (isset($arguments['_current']))
-        {
-            $arguments = array_merge($this->_request->getCurrentParams(), $arguments);
-            unset($arguments['_current']);
-        }
-
-        // set language for URL being built
-        if (isset($arguments['_lang']))
-        {
-            $this->_request->_language = $arguments['_lang'];
-            unset($arguments['_lang']);
-        }
 
         if (empty($arguments)) return '';
 
@@ -129,11 +129,42 @@ class UrlBuilder
 
 
     /**
+     * Run associated callback and remove its entry from $this->_arguments for specific keys (defined at $model)
+     */
+    private function parseArguments()
+    {
+        $model = [
+            '_current' => function(){
+                $this->_arguments = array_merge($this->_request->getCurrentParams(), $this->_arguments);
+            },
+            '_lang' => function(){
+                $this->_request->_language = $this->_arguments['_lang'];
+            }
+        ];
+
+        foreach ($model as $k => $v)
+        {
+            $this->parseArgument($k, $v);
+        }
+    }
+
+
+    private function parseArgument($key, $callback)
+    {
+        if (isset($this->_arguments[$key]))
+        {
+            $callback();
+            unset($this->_arguments[$key]);
+        }
+    }
+
+
+    /**
      * @return string URL language snippet
      */
     private function getLanguage()
     {
-        return $this->_request->getLanguage('lower') . "/";
+        return $this->_request->getLanguage() . "/";
     }
 
 }

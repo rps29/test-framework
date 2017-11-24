@@ -3,6 +3,7 @@ namespace Content\Page\EndpointControlling;
 
 use Content\Page\Request;
 use Content\Page\RenderObject as Renderer;
+use Content\Resource\Helper\Db\DbAction;
 
 /**
  * TODO:
@@ -21,6 +22,8 @@ abstract class AbstractController
 
     protected $_renderer;
 
+    protected $_db;
+
 
     /**
      * Method called to run by requested endpoint (controller)
@@ -28,10 +31,23 @@ abstract class AbstractController
     abstract public function execute();
 
 
-    public function __construct(Request $request, Renderer $renderer)
+    public function __construct(Request $request, Renderer $renderer, DbAction $dbAction)
     {
         $this->_request = $request;
         $this->_renderer = $renderer;
+        $this->_db = $dbAction;
+    }
+
+
+    // TODO: DbAction Helperclass for DB interactions.
+
+    /**
+     * Present for each finished SQL statement an own object that will build its SQL query with parameters
+     * when executed (I guess I'll ad a execute() or getSqlRes() function for returning).
+     */
+    protected function getTable($tablename)
+    {
+        return $this->_db->getTable($tablename);
     }
 
 

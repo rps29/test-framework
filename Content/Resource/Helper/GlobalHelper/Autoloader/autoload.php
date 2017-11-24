@@ -37,12 +37,14 @@ function inject(string $class, bool $create = false)
 /**
  * Injects a new instance of given class.
  * Not affecting DependencyInjector->_loaded property.
+ * @return object new $class
  */
 function create(string $class)
 {
     try
     {
-        return inject($class, true);
+        global $injector;
+        return $injector->inject($class, true);
     }
     catch (Exception $e)
     {
