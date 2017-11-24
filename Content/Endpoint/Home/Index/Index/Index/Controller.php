@@ -8,7 +8,7 @@ class Controller extends AbstractController
 
     public function execute()
     {
-        echo url()->urlToHtml('home', ['firstKey'=>'firstVal']);
+        echo url()->urlToHtml('home', ['_lang'=>'nl']);
 
         echo "<br><br>";
 

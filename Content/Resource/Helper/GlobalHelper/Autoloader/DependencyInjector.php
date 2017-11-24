@@ -15,6 +15,11 @@ class DependencyInjector
      */
     public function inject(string $class, bool $create = false)
     {
+        if (isset($this->_loaded[$class]))
+        {
+            return $this->_loaded[$class];
+        }
+
         $reflector = new \ReflectionClass($class);
 
         if (!$reflector->isInstantiable())

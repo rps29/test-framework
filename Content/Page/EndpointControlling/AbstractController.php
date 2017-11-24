@@ -22,7 +22,7 @@ abstract class AbstractController
 
     protected $_renderer;
 
-    protected $_dbHelper;
+    protected $_db;
 
 
     /**
@@ -35,7 +35,19 @@ abstract class AbstractController
     {
         $this->_request = $request;
         $this->_renderer = $renderer;
-        $this->_dbhelper = $dbAction;
+        $this->_db = $dbAction;
+    }
+
+
+    // TODO: DbAction Helperclass for DB interactions.
+
+    /**
+     * Present for each finished SQL statement an own object that will build its SQL query with parameters
+     * when executed (I guess I'll ad a execute() or getSqlRes() function for returning).
+     */
+    protected function getTable($tablename)
+    {
+        return $this->_db->getTable($tablename);
     }
 
 

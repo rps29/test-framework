@@ -25,8 +25,6 @@ class Request
     public $_query;
 
     /**
-     * // TODO: Later on: Add getter: getPost(); for special logic parsing e.g. parameters
-     *
      * @var array $_POST
      */
     public $_post;

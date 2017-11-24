@@ -25,7 +25,22 @@ class Controller
      */
     public function run()
     {
+        $this->enforceHttps();
         $this->loadController()->execute();
+    }
+
+
+    // TODO: test enforceHttps() working properly!
+    private function enforceHttps()
+    {
+        if (ENFORCE_HTTPS)
+        {
+            if (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
+            {
+                $url = BASE_URL;
+                header("Location: $url", true, 301);
+            }
+        }
     }
 
 
