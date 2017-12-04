@@ -16,17 +16,15 @@ function autoload(string $class)
 $injector = new \Content\Resource\Helper\GlobalHelper\Autoloader\DependencyInjector();
 
 /**
- * Dependency Injection
- *
+ * Dependency Injection using singletons
  * Saves once instantiated objects in order not to instantiate them twice in runtime.
- * Defining global $injector for DependencyInjector->getClass(); working properly.
  */
-function inject(string $class, bool $create = false)
+function inject(string $class)
 {
     try
     {
         global $injector;
-        return $injector->inject($class, $create);
+        return $injector->inject($class);
     }
     catch (Exception $e)
     {
@@ -43,8 +41,8 @@ function create(string $class)
 {
     try
     {
-        global $injector;
-        return $injector->inject($class, true);
+        $injector = new \Content\Resource\Helper\GlobalHelper\Autoloader\DependencyInjector();
+        return $injector->inject($class);
     }
     catch (Exception $e)
     {

@@ -12,4 +12,9 @@ class Controller extends AbstractController
         echo url()->urlToHtml('test/controller/url', [], 'test HTML display string', false, '_blank');
     }
 
+    public function setPageTitle()
+    {
+        return "404: Page Not Found";
+    }
+
 }

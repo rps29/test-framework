@@ -3,6 +3,7 @@ namespace Content\Page\EndpointControlling;
 
 use Content\Page\RenderObject as Renderer;
 use Content\Page\Request;
+use Content\Page\ViewObject;
 
 class Controller
 {
@@ -11,35 +12,47 @@ class Controller
 
     private $_renderer;
 
+    private $_viewObject;
 
-    public function __construct(Request $request, Renderer $renderer)
+
+    public function __construct(Request $request, Renderer $renderer, ViewObject $viewObject)
     {
         $this->_request = $request;
         $this->_renderer = $renderer;
+        $this->_viewObject = $viewObject;
     }
 
 
     /**
      * Main function called in Index.php
-     * More functionality can be added in future changes
+     * More functionality may be added in future changes
      */
     public function run()
     {
         $this->enforceHttps();
-        $this->loadController()->execute();
+        $controller = $this->loadController();
+
+        if (!$this->authorized($controller)) $controller->redirect(url(REDIRECT_403));
+
+        $this->_renderer->_template = $controller->setTemplate();
+        $this->_renderer->_pageTitle = $controller->setPageTitle();
+
+        $controller->execute();
+
+        // use output buffering => php.net ob_start()
+        $this->_renderer->render();
+        $this->_viewObject->toHtml();
     }
 
 
     // TODO: test enforceHttps() working properly!
     private function enforceHttps()
     {
-        if (ENFORCE_HTTPS)
+        if (ENFORCE_HTTPS && (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS']))
         {
-            if (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
-            {
-                $url = BASE_URL;
-                header("Location: $url", true, 301);
-            }
+            // TODO: $url must be current controller + current query + current language layer set to HTTPS
+            $url = BASE_URL;
+            header("Location: $url", true, 301);
         }
     }
 
@@ -50,11 +63,8 @@ class Controller
     private function loadController()
     {
         $namespace = 'Content\Endpoint' . $this->getRequestedController();
-
         $this->_renderer->_namespace = $namespace;
-
         $class = "\\$namespace\\Controller";
-
         $file = substr(str_replace('\\', '/', $class) . '.php', 1);
 
         if (file_exists($file) && class_exists($class))
@@ -68,6 +78,16 @@ class Controller
         }
 
         return inject(CONTROLLER_LOAD_404);
+    }
+
+
+    private function authorized(AbstractController $controller)
+    {
+        $auth = $controller->setAuthorization();
+
+        // TODO: compare auth with SessionHelper and return if it equals => whether user is allowed to access endpoint
+
+        return true;
     }
 
 

@@ -1,0 +1,3 @@
+> Suggestion of Content/Page/Html directory....
+
+    - Place helper classes here, that generate HTML code i.e. Breadcrumbs, Menu, even Footer or other stuff etc.

@@ -13,7 +13,7 @@ class DependencyInjector
     /**
      * Build an instance of the given class
      */
-    public function inject(string $class, bool $create = false)
+    public function inject(string $class)
     {
         if (isset($this->_loaded[$class]))
         {
@@ -31,13 +31,15 @@ class DependencyInjector
 
         if (is_null($constructor))
         {
-            return $this->getClass($class, $create);
+            return $this->getClass($class);
         }
 
         $parameters = $constructor->getParameters();
-        $dependencies = $this->getDependencies($parameters, $create);
+        $dependencies = $this->getDependencies($parameters);
 
-        return $reflector->newInstanceArgs($dependencies);
+        $return = $reflector->newInstanceArgs($dependencies);
+
+        return $this->getClass($class, $return);
     }
 
 
@@ -45,21 +47,23 @@ class DependencyInjector
      * If class has already been instantiated, return it.
      * Otherwise create new object and return its instance.
      */
-    public function getClass(string $class, $create)
+    public function getClass(string $class, $instance = null)
     {
-        if ($create)
+        if (substr($class, 0, 1) === "\\")
         {
-            return new $class;
-        }
-
-        if (substr($class, 0, 1) !== "\\")
-        {
-            $class = "\\$class";
+            $class = substr($class, 1);
         }
 
         if (!isset($this->_loaded[$class]))
         {
-            $this->_loaded[$class] = new $class;
+            if ($instance === null)
+            {
+                $this->_loaded[$class] = new $class;
+            }
+            else
+            {
+                $this->_loaded[$class] = $instance;
+            }
         }
 
         return $this->_loaded[$class];
@@ -69,7 +73,7 @@ class DependencyInjector
     /**
      * Build up a list of dependencies for given parameters
      */
-    public function getDependencies(array $parameters, $create)
+    public function getDependencies(array $parameters)
     {
         $dependencies = [];
 
@@ -77,13 +81,20 @@ class DependencyInjector
         {
             $dependency = $param->getClass();
 
-            if (is_null($dependency))
+            if ($dependency === null)
             {
                 $dependencies[] = $this->injectNonClass($param);
             }
             else
             {
-                $dependencies[] = $this->getClass($dependency->name, $create);
+                if (isset($this->_loaded[$dependency->name]))
+                {
+                    $dependencies[] = $this->getClass($dependency->name);
+                }
+                else
+                {
+                    $dependencies[] = $this->getClass($dependency->name, $this->inject($dependency->name));
+                }
             }
         }
 
