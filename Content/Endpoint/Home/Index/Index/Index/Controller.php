@@ -8,18 +8,16 @@ class Controller extends AbstractController
 
     public function execute()
     {
-        echo url()->urlToHtml('home', ['_lang'=>'nl']);
+    }
 
-        echo "<br><br>";
+    public function setPageTitle()
+    {
+        return "Framework Home";
+    }
 
-        /*/ <TEST
-        $newUrlBuilder = create('\Content\Resource\Helper\GlobalHelper\UrlBuilder\UrlBuilder');
-        $newLang = $this->_request->getLanguage() === 'de' ? 'en' : 'de';
-        echo $newUrlBuilder->urlToHtml('', ['_lang' => $newLang]);
-        echo "<br><br>";
-        //*/// TEST>
-
-        echo url()->urlToHtml('home');
+    public function setTemplate()
+    {
+        return "self::default.phtml";
     }
 
 }

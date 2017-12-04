@@ -39,23 +39,31 @@ abstract class AbstractController
     }
 
 
-    // TODO: DbAction Helperclass for DB interactions.
-
     /**
-     * Present for each finished SQL statement an own object that will build its SQL query with parameters
-     * when executed (I guess I'll ad a execute() or getSqlRes() function for returning).
+     * Set:
+     * $this->_renderer->_template
+     * $this->_renderer->_pageTitle
      */
-    protected function getTable($tablename)
+    public function setTemplate()
     {
-        return $this->_db->getTable($tablename);
+        return DEFAULT_TEMPLATE;
     }
-
+    public function setPageTitle()
+    {
+        return DEFAULT_PAGE_TITLE;
+    }
+    public function setAuthorization()
+    {
+        return DEFAULT_AUTHORIZATION;
+    }
 
     /**
      * TODO: Add 2nd 'strict' parameter for calling url() function inside before redirecting. If strict isn't given, redirect raw URL.
+     * Same logic as url()->urlToHtml();
+     *
      * Redirect user on demand to specified URL (controller)
      */
-    protected function redirect(string $urlRedirect)
+    public function redirect(string $urlRedirect)
     {
         header("Location: $urlRedirect", true);
         die;
