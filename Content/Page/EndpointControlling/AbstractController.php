@@ -5,23 +5,22 @@ use Content\Page\Request;
 use Content\Page\RenderObject as Renderer;
 use Content\Resource\Helper\Db\DbAction;
 
-/**
- * TODO:
- * These methods are just suggestions yet.
- *
- * setPageTitle() => Title displayed in browser tab
- * setTemplate() => Set the template being used for current view (idk, defaults existing, etc)
- * addBreadcrumbs() => adds Breadcrumb links to the breadcrumb line
- * setAuthorization() => sets required permissions for accessing the controller endpoint
- * ...
- */
 abstract class AbstractController
 {
 
+    /**
+     * @var Request
+     */
     protected $_request;
 
+    /**
+     * @var Renderer
+     */
     protected $_renderer;
 
+    /**
+     * @var DbAction
+     */
     protected $_db;
 
 
@@ -40,22 +39,24 @@ abstract class AbstractController
 
 
     /**
-     * Set:
-     * $this->_renderer->_template
-     * $this->_renderer->_pageTitle
+     * @return \Content\Page\Html\Head
      */
-    public function setTemplate()
+    protected function getHead()
     {
-        return DEFAULT_TEMPLATE;
+        return $this->_renderer->head;
     }
-    public function setPageTitle()
-    {
-        return DEFAULT_PAGE_TITLE;
-    }
+
+
+    /**
+     * Set authorization level for current endpoint.
+     * Method must be overridden for defining higher authorization.
+     * All levels / rules must be defined in its respective model (not existing yet).
+     */
     public function setAuthorization()
     {
         return DEFAULT_AUTHORIZATION;
     }
+
 
     /**
      * TODO: Add 2nd 'strict' parameter for calling url() function inside before redirecting. If strict isn't given, redirect raw URL.

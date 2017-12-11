@@ -3,7 +3,6 @@ namespace Content\Page\EndpointControlling;
 
 use Content\Page\RenderObject as Renderer;
 use Content\Page\Request;
-use Content\Page\ViewObject;
 
 class Controller
 {
@@ -12,14 +11,11 @@ class Controller
 
     private $_renderer;
 
-    private $_viewObject;
 
-
-    public function __construct(Request $request, Renderer $renderer, ViewObject $viewObject)
+    public function __construct(Request $request, Renderer $renderer)
     {
         $this->_request = $request;
         $this->_renderer = $renderer;
-        $this->_viewObject = $viewObject;
     }
 
 
@@ -34,14 +30,8 @@ class Controller
 
         if (!$this->authorized($controller)) $controller->redirect(url(REDIRECT_403));
 
-        $this->_renderer->_template = $controller->setTemplate();
-        $this->_renderer->_pageTitle = $controller->setPageTitle();
-
         $controller->execute();
-
-        // use output buffering => php.net ob_start()
         $this->_renderer->render();
-        $this->_viewObject->toHtml();
     }
 
 
@@ -63,7 +53,7 @@ class Controller
     private function loadController()
     {
         $namespace = 'Content\Endpoint' . $this->getRequestedController();
-        $this->_renderer->_namespace = $namespace;
+        $this->_renderer->_namespace = $namespace; // ToDo: _namespace property might be removed.
         $class = "\\$namespace\\Controller";
         $file = substr(str_replace('\\', '/', $class) . '.php', 1);
 
@@ -72,9 +62,7 @@ class Controller
             $controller = inject($class);
 
             if (method_exists($controller, 'execute'))
-            {
                 return $controller;
-            }
         }
 
         return inject(CONTROLLER_LOAD_404);
@@ -97,15 +85,11 @@ class Controller
     private function getRequestedController()
     {
         $controller = $this->_request->getCurrentController();
-
         if ($controller === '') $controller = 'home';
 
         $namespace = str_replace(['/', '-'], ['\\', ''], ucwords($controller, '/-'));
 
-        if (substr($namespace, 0, 1) !== '\\')
-        {
-            $namespace = "\\$namespace";
-        }
+        if (substr($namespace, 0, 1) !== '\\') $namespace = "\\$namespace";
 
         $parts = count(array_filter(explode("\\", $namespace)));
 
