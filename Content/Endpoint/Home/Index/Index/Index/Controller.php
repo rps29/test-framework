@@ -8,16 +8,10 @@ class Controller extends AbstractController
 
     public function execute()
     {
-    }
-
-    public function setPageTitle()
-    {
-        return "Framework Home";
-    }
-
-    public function setTemplate()
-    {
-        return "self::default.phtml";
+        $head = $this->getHead();
+        $head->setAttribute('page_title', 'Home')
+            ->setAttribute('script', ['exType', 'exSource']);
+        $head->setMetaDescription('some descr');
     }
 
 }
