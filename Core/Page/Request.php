@@ -7,36 +7,36 @@ class Request
     /**
      * @var string $_GET['language']
      */
-    public $_language;
+    public $language;
 
     /**
      * @var string $_GET['layer']
      */
-    public $_layer;
+    public $layer;
 
     /**
      * @var string $_GET['controller']
      */
-    public $_controller;
+    public $controller;
 
     /**
      * @var string $_GET['q']
      */
-    public $_query;
+    public $query;
 
     /**
      * @var array $_POST
      */
-    public $_post;
+    public $post;
 
 
     public function __construct()
     {
-        $this->_language = $_GET['language'] ?? '';
-        $this->_layer = $_GET['layer'] ?? '';
-        $this->_controller = $_GET['controller'] ?? '';
-        $this->_query = $_GET['q'] ?? '';
-        $this->_post = $_POST;
+        $this->language = $_GET['language'] ?? '';
+        $this->layer = $_GET['layer'] ?? '';
+        $this->controller = $_GET['controller'] ?? '';
+        $this->query = $_GET['q'] ?? '';
+        $this->post = $_POST;
     }
 
 
@@ -46,7 +46,7 @@ class Request
      */
     public function getCurrentController()
     {
-        $controller = $this->_controller;
+        $controller = $this->controller;
         while (strlen($controller) && substr($controller, 0, 1) === '/') {
             $controller = substr($controller, 1);
         }
@@ -55,13 +55,13 @@ class Request
 
 
     /**
-     * @return array parsed $_query
+     * @return array parsed $query
      * Can be used as second parameter (query) for url()
      */
     public function getCurrentParams()
     {
         $aRet = [];
-        $request = explode("/", $this->_query);
+        $request = explode("/", $this->query);
         if (!$request[0]) {
             unset($request[0]);
             $request = array_values($request);
@@ -76,7 +76,7 @@ class Request
     /**
      * @return array that merges given parameters with current query or another parameter array
      * Can be used as second parameter (query) for url()
-     * Doesn't touch or change anything up to $_query
+     * Doesn't touch or change anything up to $query
      */
     public function mergeParams(array $parameters, array $current = null)
     {
@@ -86,7 +86,7 @@ class Request
 
 
     /**
-     * @return string parameter value of $_query
+     * @return string parameter value of $query
      */
     public function getParam(string $key)
     {
@@ -97,11 +97,11 @@ class Request
 
     /**
      * @param string $format "upper"|"lower"
-     * @return string formatted $_language
+     * @return string formatted $language
      */
     public function getLanguage(string $format = 'lower')
     {
-        $language = $this->_language ?: TRANSLATE_DEFAULT_LANG;
+        $language = $this->language ?: TRANSLATE_DEFAULT_LANG;
         $lower = strtolower($language);
         $upper = strtoupper($language);
 

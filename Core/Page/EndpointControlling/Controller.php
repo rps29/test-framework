@@ -9,15 +9,15 @@ use Core\Page\{
 class Controller
 {
 
-    private $_request;
+    private $request;
 
-    private $_renderer;
+    private $renderer;
 
 
     public function __construct(Request $request, RenderObject $renderer)
     {
-        $this->_request = $request;
-        $this->_renderer = $renderer;
+        $this->request = $request;
+        $this->renderer = $renderer;
     }
 
 
@@ -54,7 +54,7 @@ class Controller
     private function loadController()
     {
         $namespace = 'Core\Endpoint' . $this->getRequestedControllerNamespace();
-        $this->_renderer->_namespace = $namespace; // ToDo: _namespace property might be used for modular system
+        $this->renderer->namespace = $namespace; // ToDo: _namespace property might be used for modular system
         $class = "\\$namespace\\Controller";
         $file = substr(str_replace('\\', '/', $class) . '.php', 1);
 
@@ -81,7 +81,7 @@ class Controller
      */
     private function getRequestedControllerNamespace()
     {
-        $controller = $this->_request->getCurrentController();
+        $controller = $this->request->getCurrentController();
         if ($controller === '') {
             $controller = 'home';
         }

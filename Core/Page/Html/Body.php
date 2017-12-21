@@ -7,6 +7,6 @@ use Core\Page\ViewObject;
 class Body extends ViewObject
 {
 
-    public $_template = 'Core/Page/Html/body.phtml';
+    public $template = 'Core/Page/Html/body.phtml';
 
 }

@@ -13,17 +13,17 @@ abstract class AbstractController
     /**
      * @var Request
      */
-    protected $_request;
+    protected $request;
 
     /**
      * @var Renderer
      */
-    protected $_renderer;
+    protected $renderer;
 
     /**
      * @var DbAction
      */
-    protected $_db;
+    protected $db;
 
 
     /**
@@ -34,9 +34,9 @@ abstract class AbstractController
 
     public function __construct(Request $request, Renderer $renderer, DbAction $dbAction)
     {
-        $this->_request = $request;
-        $this->_renderer = $renderer;
-        $this->_db = $dbAction;
+        $this->request = $request;
+        $this->renderer = $renderer;
+        $this->db = $dbAction;
     }
 
 
@@ -45,7 +45,7 @@ abstract class AbstractController
      */
     protected function getHead()
     {
-        return $this->_renderer->head;
+        return $this->renderer->head;
     }
 
 

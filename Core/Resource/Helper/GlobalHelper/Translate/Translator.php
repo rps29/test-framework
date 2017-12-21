@@ -6,29 +6,29 @@ use Core\Resource\Helper\GlobalHelper\Translate\ImportTranslation as Importer;
 class Translator
 {
 
-    protected $_importer;
+    protected $importer;
 
-    protected $_availableTranslations = [];
+    protected $availableTranslations = [];
 
 
     /**
      * String to be translated
      */
-    protected $_fetched = '';
+    protected $fetched = '';
 
 
     /**
      * On failure:
      * throw Exception | return original string
      *
-     * @var bool $_strict
+     * @var bool $strict
      */
-    protected $_strict;
+    protected $strict;
 
 
     public function __construct(Importer $importer)
     {
-        $this->_importer = $importer;
+        $this->importer = $importer;
     }
 
 
@@ -37,17 +37,17 @@ class Translator
      */
     public function trans(string $toTranslate, bool $strict = TRANSLATE_STRICT_DEFAULT)
     {
-        $this->_fetched = $toTranslate;
-        $this->_strict = $strict;
-        $this->_availableTranslations = array_column($this->_importer->getTranslations(), 0);
+        $this->fetched = $toTranslate;
+        $this->strict = $strict;
+        $this->availableTranslations = array_column($this->importer->getTranslations(), 0);
 
-        if (in_array($this->_fetched, $this->_availableTranslations, true))
+        if (in_array($this->fetched, $this->availableTranslations, true))
         {
             return $this->getParsedTranslation();
         }
         else
         {
-            return $this->error("Call to method trans() could not find defined translation string. Failed to translate string: {$this->_fetched}");
+            return $this->error("Call to method trans() could not find defined translation string. Failed to translate string: {$this->fetched}");
         }
     }
 
@@ -57,25 +57,25 @@ class Translator
      */
     protected function error(string $error)
     {
-        if ($this->_strict)
+        if ($this->strict)
         {
             throw new \Exception($error);
         }
         else
         {
-            return $this->_fetched;
+            return $this->fetched;
         }
     }
 
 
     /**
-     * Set $_translation
+     * Set $translation
      */
     protected function getParsedTranslation()
     {
-        $fileRow = array_search($this->_fetched, $this->_availableTranslations);
+        $fileRow = array_search($this->fetched, $this->availableTranslations);
 
-        return $this->_importer->getTranslations()[$fileRow][1];
+        return $this->importer->getTranslations()[$fileRow][1];
     }
 
 }

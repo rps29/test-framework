@@ -14,7 +14,7 @@ class Head extends ViewObject
 {
 
     // TODO: Refactor: $this->setAttribute() not working properly (nothing is being set)
-    public $_model = [
+    public $model = [
         'page_title' => DEFAULT_PAGE_TITLE,
         'page_icon' => DEFAULT_PAGE_ICON,
         'script' => [],
@@ -22,7 +22,7 @@ class Head extends ViewObject
         'meta' => []
     ];
 
-    public $_template = 'Core/Page/Html/head.phtml';
+    public $template = 'Core/Page/Html/head.phtml';
 
 
     /**
@@ -36,10 +36,10 @@ class Head extends ViewObject
             case 'script':
             case 'meta':
             case 'link':
-                $this->_model[$modelKey][] = $value;
+                $this->model[$modelKey][] = $value;
                 break;
             default:
-                $this->_model[$modelKey] = $value;
+                $this->model[$modelKey] = $value;
         }
         return $this;
     }
@@ -64,7 +64,7 @@ class Head extends ViewObject
      */
     public function setMetaDescription(string $description)
     {
-        $this->_model['meta_description'] = $description;
+        $this->model['meta_description'] = $description;
     }
 
 
@@ -74,7 +74,7 @@ class Head extends ViewObject
      */
     public function setMetaKeyword(string $keyword)
     {
-        $this->_model['meta_keywords'] .= $keyword;
+        $this->model['meta_keywords'] .= $keyword;
     }
 
 
@@ -83,7 +83,7 @@ class Head extends ViewObject
      */
     public function getLang()
     {
-        return $this->_request->getLanguage();
+        return $this->request->getLanguage();
     }
 
 
@@ -92,7 +92,7 @@ class Head extends ViewObject
      */
     public function getMeta(string $key)
     {
-        return $this->_model["meta_$key"] ?? '';
+        return $this->model["meta_$key"] ?? '';
     }
 
 
@@ -101,7 +101,7 @@ class Head extends ViewObject
      */
     public function getPageTitle()
     {
-        return $this->_model['page_title'];
+        return $this->model['page_title'];
     }
 
 
@@ -110,14 +110,14 @@ class Head extends ViewObject
      */
     public function getPageIcon()
     {
-        return $this->_model['page_icon'];
+        return $this->model['page_icon'];
     }
 
 
     public function getAdditionalHtml(string $modelKey, string $raw)
     {
         $html = '';
-        foreach ($this->_model[$modelKey] as $tag) {
+        foreach ($this->model[$modelKey] as $tag) {
             $html .= $raw . "\n";//"\n\t";//TODO: sprintf($raw, $tag);
         }
         return $html;

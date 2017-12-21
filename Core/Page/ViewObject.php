@@ -4,14 +4,14 @@ namespace Core\Page;
 class ViewObject
 {
 
-    public $_template = '';
+    public $template = '';
 
-    protected $_request;
+    protected $request;
 
 
     public function __construct(Request $request)
     {
-        $this->_request = $request;
+        $this->request = $request;
     }
 
 }

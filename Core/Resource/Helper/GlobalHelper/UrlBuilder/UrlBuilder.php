@@ -6,16 +6,16 @@ use Core\Page\Request;
 class UrlBuilder
 {
 
-    private $_resource = '';
+    private $resource = '';
 
-    private $_arguments = [];
+    private $arguments = [];
 
-    public $_request;
+    public $request;
 
 
     public function __construct(Request $request)
     {
-        $this->_request = $request;
+        $this->request = $request;
     }
 
 
@@ -24,8 +24,8 @@ class UrlBuilder
         if (is_null($resourceUrl)) {
             return $this;
         }
-        $this->_resource = $resourceUrl;
-        $this->_arguments = $arguments;
+        $this->resource = $resourceUrl;
+        $this->arguments = $arguments;
         return $this->getUrl();
     }
 
@@ -64,7 +64,7 @@ class UrlBuilder
      */
     private function getResource()
     {
-        $resource = $this->_resource;
+        $resource = $this->resource;
         while (substr($resource, 0, 1) === '/') {
             $resource = substr($resource, 1);
         }
@@ -100,7 +100,7 @@ class UrlBuilder
     {
         $this->parseArguments();
         $query = '';
-        $arguments = $this->_arguments;
+        $arguments = $this->arguments;
         if (empty($arguments)) {
             return '';
         }
@@ -112,16 +112,16 @@ class UrlBuilder
 
 
     /**
-     * Run associated callback and remove its entry from $this->_arguments for specific keys (defined at $model)
+     * Run associated callback and remove its entry from $this->arguments for specific keys (defined at $model)
      */
     private function parseArguments()
     {
         $model = [
             '_current' => function(){
-                $this->_arguments = array_merge($this->_request->getCurrentParams(), $this->_arguments);
+                $this->arguments = array_merge($this->request->getCurrentParams(), $this->arguments);
             },
             '_lang' => function(){
-                $this->_request->_language = $this->_arguments['_lang'];
+                $this->request->language = $this->arguments['_lang'];
             }
         ];
         foreach ($model as $k => $v) {
@@ -132,9 +132,9 @@ class UrlBuilder
 
     private function parseArgument($key, $callback)
     {
-        if (isset($this->_arguments[$key])) {
+        if (isset($this->arguments[$key])) {
             $callback();
-            unset($this->_arguments[$key]);
+            unset($this->arguments[$key]);
         }
     }
 
@@ -144,7 +144,7 @@ class UrlBuilder
      */
     private function getLanguage()
     {
-        return $this->_request->getLanguage() . "/";
+        return $this->request->getLanguage() . "/";
     }
 
 }

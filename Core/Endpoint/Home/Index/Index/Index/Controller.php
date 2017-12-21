@@ -15,7 +15,7 @@ class Controller extends AbstractController
         $head->setAttribute('page_title', 'Home')
             ->setAttribute('script', 'exType');
         $head->setMetaDescription('some descr');
-        $this->_renderer->render();
+        $this->renderer->render();
     }
 
 }

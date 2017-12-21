@@ -12,7 +12,7 @@ class Controller extends AbstractController
         $head->setAttribute('page_title', '404 page not found')
             ->setAttribute('script', 'some script');
         $head->setMetaDescription('some descr');
-        $this->_renderer->render();
+        $this->renderer->render();
     }
 
 }

@@ -12,7 +12,7 @@ class RenderObject
     /**
      * @var string Core\Endpoint\*\*\*\*
      */
-    public $_namespace;
+    public $namespace;
 
 
     public function __construct(Head $head, Body $body)
@@ -37,10 +37,10 @@ class RenderObject
     private function createView(ViewObject $block, string $template = null)
     {
         if ($template === null) {
-            if ($block->_template === '') {
+            if ($block->template === '') {
                 return 'Failed to create view: "' . get_class($block) . '" - No template given.<br/>';
             } else {
-                $template = $block->_template;
+                $template = $block->template;
             }
         }
         if (!file_exists($template)) {

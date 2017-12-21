@@ -27,7 +27,7 @@ function inject(string $class)
 
 /**
  * Injects a new instance of given class.
- * Not affecting DependencyInjector->_loaded property.
+ * Not affecting DependencyInjector->loaded property.
  * @return object new $class
  */
 function create(string $class)

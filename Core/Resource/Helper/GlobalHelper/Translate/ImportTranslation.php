@@ -6,17 +6,17 @@ use Core\Page\Request;
 class ImportTranslation
 {
 
-    private $_request;
+    private $request;
 
     /**
-     * @var array $_data csv data
+     * @var array $data csv data
      */
-    protected $_data = [];
+    protected $data = [];
 
 
     public function __construct(Request $request)
     {
-        $this->_request = $request;
+        $this->request = $request;
     }
 
 
@@ -25,16 +25,16 @@ class ImportTranslation
      */
     public function getTranslations()
     {
-        if (!$this->_data) $this->runImport();
+        if (!$this->data) $this->runImport();
 
-        return $this->_data;
+        return $this->data;
     }
 
 
     /**
      * Main method for import
      *
-     * Importing Translations/*.csv file content as array to property $_data
+     * Importing Translations/*.csv file content as array to property $data
      */
     public function runImport()
     {
@@ -57,7 +57,7 @@ class ImportTranslation
             $data[] = $this->adjustDataEntry($dataEntry);
         }
 
-        $this->_data = $data;
+        $this->data = $data;
     }
 
 
@@ -83,7 +83,7 @@ class ImportTranslation
      */
     public function getCsvPath()
     {
-        $filePath = TRANSLATE_RESOURCE_PATH . "/{$this->_request->getLanguage()}.csv";
+        $filePath = TRANSLATE_RESOURCE_PATH . "/{$this->request->getLanguage()}.csv";
 
         if (!file_exists($filePath))
         {

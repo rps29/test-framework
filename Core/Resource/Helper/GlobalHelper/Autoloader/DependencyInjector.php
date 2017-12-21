@@ -5,9 +5,9 @@ class DependencyInjector
 {
 
     /**
-     * Property $_loaded used to store singleton instances.
+     * Property $loaded used to store singleton instances.
      */
-    public $_loaded = [];
+    public $loaded = [];
 
 
     /**
@@ -15,8 +15,8 @@ class DependencyInjector
      */
     public function inject(string $class)
     {
-        if (isset($this->_loaded[$class])) {
-            return $this->_loaded[$class];
+        if (isset($this->loaded[$class])) {
+            return $this->loaded[$class];
         }
         $reflector = new \ReflectionClass($class);
         if (!$reflector->isInstantiable()) {
@@ -52,10 +52,10 @@ class DependencyInjector
         while (strlen($class) && substr($class, 0, 1) === "\\") {
             $class = substr($class, 1);
         }
-        if (!isset($this->_loaded[$class])) {
-            $this->_loaded[$class] = $instance === null ? new $class : $instance;
+        if (!isset($this->loaded[$class])) {
+            $this->loaded[$class] = $instance === null ? new $class : $instance;
         }
-        return $this->_loaded[$class];
+        return $this->loaded[$class];
     }
 
 
@@ -74,7 +74,7 @@ class DependencyInjector
                 $dependencies[] = $this->injectNonClass($param);
             } else {
                 $instance = null;
-                if (!isset($this->_loaded[$dependency->name])) {
+                if (!isset($this->loaded[$dependency->name])) {
                     $instance = $this->inject($dependency->name);
                 }
                 $dependencies[] = $this->getClass($dependency->name, $instance);
