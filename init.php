@@ -12,7 +12,7 @@
  * autoload(string $class);
  * inject(string $class);
  */
-require_once "Content/Resource/Helper/GlobalHelper/Autoloader/autoload.php";
+require_once "Core/Resource/Helper/GlobalHelper/Autoloader/autoload.php";
 
 
 /**
@@ -20,7 +20,7 @@ require_once "Content/Resource/Helper/GlobalHelper/Autoloader/autoload.php";
  *
  * Error handling
  */
-#require_once "Content/Resource/ErrorHandling/handle.php";
+#require_once "Core/Resource/ErrorHandling/handle.php";
 
 
 /**
@@ -31,7 +31,7 @@ require_once "Content/Resource/Helper/GlobalHelper/Autoloader/autoload.php";
  * Use for any url endpoints in order to display correct final url redirectable by .htaccess, Index.php and global purl()
  * Parameter two is supposed to be used for special source urls e.g. image locations, css file locations, etc
  */
-require_once "Content/Resource/Helper/GlobalHelper/UrlBuilder/url.php";
+require_once "Core/Resource/Helper/GlobalHelper/UrlBuilder/url.php";
 
 
 /**
@@ -41,4 +41,4 @@ require_once "Content/Resource/Helper/GlobalHelper/UrlBuilder/url.php";
  *
  * Use for a string being translated depending on current language
  */
-require_once "Content/Resource/Helper/GlobalHelper/Translate/trans.php";
+require_once "Core/Resource/Helper/GlobalHelper/Translate/trans.php";

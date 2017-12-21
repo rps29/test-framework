@@ -1,6 +1,6 @@
 RewriteEngine On
 
-RewriteRule ^[a-zA-Z]{2}?media/(.*)$ Content/media/$1
+RewriteRule ^[a-zA-Z]{2}?media/(.*)$ Core/media/$1
 
 RewriteRule ^(([a-zA-Z]{2})/|(admin)/)?((/?[A-Za-z0-9\-]+){0,4}?)?(/q((/[^/]+)*))?/?$ Index.php?language=$2&layer=$3&controller=$4&query=$7
 

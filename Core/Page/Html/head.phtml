@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var $this \Core\Page\RenderObject
+ * @var $block \Core\Page\Html\Head
+ */
+?>
+<head>
+
+    <meta charset="UTF-8">
+    <title><?php echo $block->getPageTitle(); ?></title>
+
+    <link rel="icon" href="<?php echo $block->getPageIcon(); ?>" sizes="32x32" />
+    <?php echo $block->getAdditionalHtml('link', '<link rel="" href="%1" />'); ?>
+
+    <!--<script type="text/javascript" src=""></script>-->
+    <?php echo $block->getAdditionalHtml('script', '<script type="text/javascript" src="%1"></script>'); ?>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="<?php echo $block->getMeta('description'); ?>" lang="<?php echo $block->getLang(); ?>" />
+    <meta name="keywords" content="<?php echo $block->getMeta('keywords'); ?>" lang="<?php echo $block->getLang(); ?>" />
+    <?php echo $block->getAdditionalHtml('meta', '<meta name="%1" content="%2" lang="'.$block->getLang().'" />"'); ?>
+
+</head>

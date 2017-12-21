@@ -10,9 +10,9 @@
 
 - url(): _returns UrlBuilder object if no arguments given_
 
-    - `key=>value` pairs passed as argument 2 (array) can be retrieved with the `\Content\Page\Request::getCurrentParams()` function
+    - `key=>value` pairs passed as argument 2 (array) can be retrieved with the `\Core\Page\Request::getCurrentParams()` function
     
-    - `\Content\Page\Request` is provided as protected property `$_request` in the `\Content\Page\EndpointControlling\AbstractController` class
+    - `\Core\Page\Request` is provided as protected property `$_request` in the `\Core\Page\EndpointControlling\AbstractController` class
 
 - trans(): _returns translated string for requested language_
          
@@ -24,24 +24,24 @@
     
     - TODO: `create()` for injecting dependencies but instead of returning the stored instance of `$_loaded` property, it returns a new, independent object. E.G. for language switcher URLs (for not changing the _real_ requested language)
     
-> \Content\Page\\* namespace
+> \Core\Page\\* namespace
 
-- `Content\Page\RenderObject`...
+- `Core\Page\RenderObject`...
 
     - Responsible for rendering the HTML for the output.
     
     - TODO: Add a `render()` function being called in Index.php that renders all templates
 
-- `Content\Page\Request`...
+- `Core\Page\Request`...
 
     - All around `$_GET` and `$_POST` (including .htaccess redirect info)
 
-- `Content\Page\EndpointControlling\AbstractController`...
+- `Core\Page\EndpointControlling\AbstractController`...
 
     - It's definitely recommended to extend this class from any endpoint controller you create
     
     - Providing basic data, dependencies and functions useful for a endpoint controller
 
-- `Content\Page\Controller`...
+- `Core\Page\Controller`...
     
     - Injected in Index.php for running the entire script
